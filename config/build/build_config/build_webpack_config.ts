@@ -12,12 +12,14 @@ export const build_webpack_config = (options: build_options): Configuration => {
     mode,
     entry: paths.entry,
     output: {
-      filename: isDev ? "[name]-[contenthash].js" : "[contenthash].js",
+      filename: isDev
+        ? "js/[name]-[contenthash:4].js"
+        : "js/[contenthash:8].js",
       path: paths.build,
       clean: true,
     },
     module: {
-      rules: build_loaders(),
+      rules: build_loaders(options),
     },
     resolve: build_resolvers(),
     plugins: build_plugins(options),

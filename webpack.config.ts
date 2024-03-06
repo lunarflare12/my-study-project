@@ -8,7 +8,7 @@ const config = (env: build_options): Configuration => {
   const isDev = mode === "development";
   const port = env.port || 3000;
   const paths: build_paths = {
-    entry: path.resolve(__dirname, "src", "index.ts"),
+    entry: path.resolve(__dirname, "src", "index.tsx"),
     build: path.resolve(__dirname, "dist"),
     html: path.resolve(__dirname, "public", "index.html"),
     src: path.resolve(__dirname, "src"),

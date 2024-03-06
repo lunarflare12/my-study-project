@@ -6,6 +6,7 @@ export const build_devServer = ({
 }: build_options): DevServerConfiguration => {
   return {
     port: port,
+    historyApiFallback: true,
     client: {
       webSocketTransport: "ws",
     },

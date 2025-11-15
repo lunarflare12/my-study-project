@@ -1,0 +1,45 @@
+{
+  "name": "ulbi",
+  "license": "ISC",
+  "scripts": {
+    "start": "webpack serve --env port=3000",
+    "build:prod": "webpack --env mode=production",
+    "build:dev": "webpack --env mode=development"
+  },
+  "devDependencies": {
+    "@config/eslint-config": "workspace:*",
+    "@config/webpack-config": "workspace:*",
+    "@stylistic/eslint-plugin": "5.5.0",
+    "@types/node": "^20.11.24",
+    "@types/react": "^18.2.63",
+    "@types/react-dom": "^18.2.19",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/webpack": "^5.28.5",
+    "@typescript-eslint/eslint-plugin": "8.46.4",
+    "@typescript-eslint/parser": "8.46.4",
+    "@typescript-eslint/types": "8.46.4",
+    "@typescript-eslint/utils": "8.46.4",
+    "css-loader": "^6.10.0",
+    "eslint": "^9.15.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "eslint-plugin-rulesdir": "0.2.2",
+    "eslint-visitor-keys": "^3.4.3",
+    "html-webpack-plugin": "^5.6.0",
+    "mini-css-extract-plugin": "^2.8.1",
+    "sass": "^1.71.1",
+    "sass-loader": "^14.1.1",
+    "style-loader": "^3.3.4",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.2"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.2"
+  }
+}

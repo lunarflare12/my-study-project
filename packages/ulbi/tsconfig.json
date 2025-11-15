@@ -1,0 +1,33 @@
+{
+  "extends": "../../config/tslint-config/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "esnext",
+    "target": "es5",
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["./src/*"],
+      "@config/webpack-config": ["../../config/webpack-config/build_config/index.ts"],
+      "@config/webpack-config/types": ["../../config/webpack-config/types/types.ts"]
+    },
+    "lib": ["DOM", "DOM.Iterable", "ESNext"]
+  },
+  "include": ["src", "webpack.config.ts"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS",
+      "moduleResolution": "node",
+      "esModuleInterop": true
+    },
+    "esm": false,
+    "transpileOnly": true,
+    "files": true,
+    "experimentalSpecifierResolution": "node"
+  }
+}

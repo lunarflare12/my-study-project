@@ -13,7 +13,7 @@ const useTheme = (): IUseThemeResult => {
     const currentTheme = theme ?? Theme.LIGHT;
     const netTheme = currentTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT;
     setTheme?.(netTheme);
-    localStorage.setItem(LOCAL_STORAGE_THEME_KEY, netTheme);
+    localStorage.setItem(LOCAL_STORAGE_THEME_KEY, String(netTheme));
   };
 
   return { theme: theme ?? Theme.LIGHT, toggleTheme };

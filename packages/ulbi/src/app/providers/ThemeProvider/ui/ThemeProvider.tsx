@@ -5,8 +5,15 @@ import {
     ThemeContext,
 } from "../lib/ThemeContex";
 
-const defaultTheme =
-    (localStorage.getItem(LOCAL_STORAGE_THEME_KEY) as Theme) || Theme.LIGHT;
+const getDefaultTheme = (): Theme => {
+  const storedTheme = localStorage.getItem(LOCAL_STORAGE_THEME_KEY);
+  if (storedTheme && Object.values(Theme).includes(storedTheme as Theme)) {
+    return storedTheme as Theme;
+  }
+  return Theme.LIGHT;
+};
+
+const defaultTheme = getDefaultTheme();
 
 export const ThemeProvider: FC<{ children: React.ReactNode; }> = ({
     children,

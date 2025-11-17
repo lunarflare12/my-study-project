@@ -1,6 +1,7 @@
 import { classNames } from "shared/lib/classNames/ClassNames";
 import cls from "./NavBar.module.scss";
 import { AppLink, AppLinkTheme } from "shared/ui/AppLink/AppLink.tsx";
+import { ThemeSwitcher } from "widgets/ThemeSwitcher";
 
 interface INavBarProps {
   className?: string;
@@ -9,6 +10,7 @@ interface INavBarProps {
 export const NavBar = ({ className }: INavBarProps) => {
   return (
     <div className={classNames(cls.NavBar, {}, [className])}>
+      <ThemeSwitcher />
       <div className={cls.links}>
         <AppLink
           theme={AppLinkTheme.SECONDARY}

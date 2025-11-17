@@ -81,7 +81,28 @@ const build_loaders = ({ isDev, paths }: IBuildOptions): RuleSetRule[] => {
     ],
   };
 
-  return [ts_loader, css_modules_loader, scss_modules_loader, css_loader];
+  const svc_loader = {
+    test: /\.svg$/,
+    use: ['@svgr/webpack'],
+  }
+
+  const file_loader = {
+    test: /\.(png|jpe?g|gif)$/i,
+    use: [
+      {
+        loader: 'file-loader',
+      },
+    ],
+  }
+
+  return [
+    svc_loader,
+    file_loader,
+    ts_loader,
+    css_modules_loader,
+    scss_modules_loader,
+    css_loader
+  ];
 };
 
 export { build_loaders };

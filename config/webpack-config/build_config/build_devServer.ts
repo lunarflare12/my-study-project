@@ -3,9 +3,14 @@ import { type IBuildOptions } from "../types/types";
 
 const build_devServer = ({
   port,
+  paths,
 }: IBuildOptions): DevServerConfiguration => ({
   port: port,
   historyApiFallback: true,
+  static: {
+    directory: paths.public,
+    publicPath: "/",
+  },
   client: {
     webSocketTransport: "ws",
   },

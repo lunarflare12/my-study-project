@@ -5,6 +5,7 @@ interface IBuildPaths {
   entry: string;
   build: string;
   src: string;
+  public: string;
 }
 
 interface IBuildOptions {

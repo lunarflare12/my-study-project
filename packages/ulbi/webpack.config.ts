@@ -12,6 +12,7 @@ const config = (env: IBuildOptions): Configuration => {
     build: path.resolve(__dirname, "dist"),
     html: path.resolve(__dirname, "public", "index.html"),
     src: path.resolve(__dirname, "src"),
+    public: path.resolve(__dirname, "public"),
   };
 
   return build_webpack_config({ mode, isDev, port, paths });

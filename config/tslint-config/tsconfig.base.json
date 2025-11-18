@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "strict": true,
+    "strictNullChecks": false,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": false,
     "allowSyntheticDefaultImports": true,

@@ -1,30 +1,22 @@
-import { classNames } from "shared/lib/classNames/ClassNames";
-import cls from "./NavBar.module.scss";
-import { AppLink, AppLinkTheme } from "shared/ui/AppLink/AppLink.tsx";
-import { ThemeSwitcher } from "widgets/ThemeSwitcher";
+import cls from './NavBar.module.scss';
+import {AppLink, AppLinkTheme} from "shared/ui/AppLink/AppLink";
+import { classNames } from "shared/lib/classNames/classNames.ts";
 
-interface INavBarProps {
-  className?: string;
+interface INavbarProps {
+    className?: string;
 }
 
-export const NavBar = ({ className }: INavBarProps) => {
-  return (
-    <div className={classNames(cls.NavBar, {}, [className])}>
-      <ThemeSwitcher />
-      <div className={cls.links}>
-        <AppLink
-          theme={AppLinkTheme.SECONDARY}
-          className={cls.mainLink}
-          to={"/"}>
-          Home
-        </AppLink>
-        <AppLink
-          theme={AppLinkTheme.SECONDARY}
-          to={"/about"}>
-          About
-        </AppLink>
-      </div>
-    </div>
-  );
+export const NavBar = ({className}: INavbarProps) => {
+    return (
+        <div className={classNames (cls.navbar, {}, [className])}>
+            <div className={cls.links}>
+                <AppLink theme={AppLinkTheme.SECONDARY} to={'/'} className={cls.mainLink}>
+                    Главная
+                </AppLink>
+                <AppLink theme={AppLinkTheme.RED} to={'/about'}>
+                    О сайте
+                </AppLink>
+            </div>
+        </div>
+    );
 };
-

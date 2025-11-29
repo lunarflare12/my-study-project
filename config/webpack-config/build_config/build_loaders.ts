@@ -26,6 +26,7 @@ const build_loaders = ({ isDev, paths }: IBuildOptions): RuleSetRule[] => {
             localIdentName: isDev
               ? "[path][name]__[local]--[hash:base64:4]"
               : "[hash:base64:16]",
+            namedExport: false,
           },
         },
       },
@@ -43,6 +44,7 @@ const build_loaders = ({ isDev, paths }: IBuildOptions): RuleSetRule[] => {
             localIdentName: isDev
               ? "[path][name]__[local]--[hash:base64:4]"
               : "[hash:base64:16]",
+            namedExport: false,
           },
         },
       },
@@ -99,8 +101,8 @@ const build_loaders = ({ isDev, paths }: IBuildOptions): RuleSetRule[] => {
     svc_loader,
     file_loader,
     ts_loader,
-    css_modules_loader,
     scss_modules_loader,
+    css_modules_loader,
     css_loader
   ];
 };

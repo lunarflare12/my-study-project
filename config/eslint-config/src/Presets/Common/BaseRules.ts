@@ -81,6 +81,7 @@ const baseCommonRules = {
       allow: ["methods", "generatorMethods", "getters", "setters", "constructors", "asyncMethods"],
     },
   ],
-};
+} as const;
 
 export { baseCommonRules };
+

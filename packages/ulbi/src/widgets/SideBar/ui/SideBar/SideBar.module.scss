@@ -1,10 +1,9 @@
-.Sidebar {
-  height: calc(100vh - var(--navbar-height));
-  width: var(--sidebar-width);
-  background: var(--inverted-bg-color);
-
-  position: relative;
-  transition: width 0.3s;
+.sidebar {
+  width:       var(--sidebar-width);
+  height:      calc(100vh - var(--navbar-height));
+  background:  var(--inverted-bg-color);
+  position:    relative;
+  transition:  width 0.3s;
 }
 
 .collapsed {
@@ -12,9 +11,14 @@
 }
 
 .switchers {
-  position: absolute;
-  bottom: 20px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
+  position:         absolute;
+  bottom:           20px;
+  display:          flex;
+  justify-content:  center;
+  width:            100%;
 }
+
+.lang {
+  margin-left: 20px;
+}
+

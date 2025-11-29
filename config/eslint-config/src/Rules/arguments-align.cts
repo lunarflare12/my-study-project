@@ -1,12 +1,22 @@
-"use strict";
+import type { Rule } from "eslint";
 
-const getLoc = (node) => ({
+interface Loc {
+  start: number;
+  end: number;
+}
+
+const getLoc = (node: { loc: { start: { line: number }; end: { line: number } } }): Loc => ({
   start: node.loc.start.line,
   end: node.loc.end.line
 });
 
-module.exports = {
+const rule: Rule.RuleModule = {
   meta: {
+    type: "layout",
+    docs: {
+      description: "Enforce proper alignment of function parameters and arguments",
+    },
+    fixable: "whitespace",
     messages: {
       paramsSingle: `Parameter start must equal opening bracket and end must equal closing bracket or start must be after opening bracket and end must be before closing bracket
 Examples:
@@ -57,24 +67,34 @@ call(
   { key: 3 },
 );`,
     },
-    fixable: "whitespace",
+    schema: [],
   },
-  create(context) {
+  create(context: Rule.RuleContext) {
     const splitted = context.getFilename().split(".");
 
-    if (["test", "spec"].includes(splitted[splitted.length - 2])) {
+    if (["test", "spec"].includes(splitted[splitted.length - 2] || "")) {
       return {};
     }
 
     const source = context.getSourceCode().text;
 
-    const perform = (node, reportNode, loc, type) => {
+    const perform = (
+      node: { params?: unknown[]; arguments?: unknown[] },
+      reportNode: { type?: string; loc: { start: { line: number }; end: { line: number } } },
+      loc: Loc,
+      type: "params" | "arguments"
+    ): void => {
       if (loc.start === loc.end) {
         return;
       }
 
-      if (node[type].length === 1) {
-        const [value] = node[type];
+      const items = type === "params" ? node.params : node.arguments;
+      if (!items || items.length === 0) {
+        return;
+      }
+
+      if (items.length === 1) {
+        const [value] = items as Array<{ loc: { start: { line: number }; end: { line: number } } }>;
 
         const valueLoc = getLoc(value);
 
@@ -93,19 +113,20 @@ call(
         }
 
         context.report({
-          node: reportNode,
+          node: reportNode as unknown as { type: string },
           messageId: `${type}Single`,
           fix(fixer) {
             if (valueLoc.start === loc.start) {
-              return fixer.insertTextBefore(value, "\n");
+              return fixer.insertTextBefore(value as unknown as { type: string }, "\n");
             }
 
-            return fixer.insertTextAfter(value, "\n");
+            return fixer.insertTextAfter(value as unknown as { type: string }, "\n");
           }
         });
+        return;
       }
 
-      const valueLocs = node[type].map(getLoc);
+      const valueLocs = (items as Array<{ loc: { start: { line: number }; end: { line: number } } }>).map(getLoc);
 
       let valid = true;
 
@@ -148,17 +169,17 @@ call(
       }
 
       context.report({
-        node: reportNode,
+        node: reportNode as any,
         messageId: `${type}Multiple`,
         fix(fixer) {
-          const fixers = [];
+          const fixers: any[] = [];
 
           valueLocs.forEach((valueLoc, i) => {
-            const value = node[type][i];
+            const value = items[i];
 
             if (i === 0) {
               if (valueLoc.start === loc.start) {
-                fixers.push(fixer.insertTextBefore(value, "\n"));
+                fixers.push(fixer.insertTextBefore(value as unknown as { type: string }, "\n"));
               }
 
               return;
@@ -167,12 +188,12 @@ call(
             const prevValueLoc = valueLocs[i - 1];
 
             if (valueLoc.start === prevValueLoc.end) {
-              fixers.push(fixer.insertTextBefore(value, "\n"));
+              fixers.push(fixer.insertTextBefore(value as unknown as { type: string }, "\n"));
             }
 
             if (i === valueLocs.length - 1) {
               if (valueLoc.end === loc.end) {
-                fixers.push(fixer.insertTextAfter(value, "\n"));
+                fixers.push(fixer.insertTextAfter(value as unknown as { type: string }, "\n"));
               }
             }
           });
@@ -182,12 +203,12 @@ call(
       });
     };
 
-    const handleFunction = (node) => {
+    const handleFunction = (node: any): void => {
       if (node.params.length === 0) {
         return;
       }
 
-      const loc = getLoc(node);
+      const loc: Loc = getLoc(node);
 
       if (node.typeParameters) {
         loc.start = node.typeParameters.loc.end.line;
@@ -205,8 +226,8 @@ call(
         }
       }
 
-      const lastParam = node.params[node.params.length - 1];
-      loc.end = lastParam.loc.end.line
+      const lastParam = node.params[node.params.length - 1] as { loc: { end: { line: number } }; range: [number, number] };
+      loc.end = lastParam.loc.end.line;
 
       let sourceCopy = source;
 
@@ -216,11 +237,11 @@ call(
 
       const lastClosingBracketIndex = sourceCopy.slice(node.range[0], node.body.range[0]).split("").lastIndexOf(")");
 
-      let closingBracketOnNextLine = sourceCopy
+      const closingBracketOnNextLine = sourceCopy
         .slice(lastParam.range[1], node.range[0] + lastClosingBracketIndex)
         .includes("\n");
 
-      if (closingBracketOnNextLine > 0) {
+      if (closingBracketOnNextLine) {
         loc.end += 1;
       }
 
@@ -229,24 +250,21 @@ call(
 
     return {
       FunctionDeclaration: handleFunction,
-
       FunctionExpression: handleFunction,
-
       ArrowFunctionExpression: handleFunction,
-
-      CallExpression: (node) => {
+      CallExpression: (node: any) => {
         if (node.arguments.length === 0) {
           return;
         }
 
-        let reportNode = node;
+        let reportNode: { type?: string; loc: { start: { line: number }; end: { line: number } } } = node;
 
-        const loc = getLoc(node);
+        const loc: Loc = getLoc(node);
 
-        if (node.callee.type === "MemberExpression") {
+        if (node.callee.type === "MemberExpression" && node.callee.property) {
           loc.start = node.callee.property.loc.start.line;
-          reportNode = node.callee.property;
-        } else if (node.callee.type === "CallExpression") {
+          reportNode = { type: node.callee.property.type, loc: { start: { line: node.callee.property.loc.start.line }, end: { line: node.callee.property.loc.start.line } } };
+        } else if (node.callee.type === "CallExpression" && node.callee.loc) {
           loc.start = node.callee.loc.end.line;
         }
 
@@ -255,3 +273,5 @@ call(
     };
   },
 };
+
+module.exports = rule;

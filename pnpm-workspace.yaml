@@ -1,6 +1,7 @@
 packages:
   - packages/**
   - config/eslint-config
+  - config/stylelint-config
   - config/webpack-config
 
 onlyBuiltDependencies:

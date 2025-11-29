@@ -1,18 +1,13 @@
 import rulesdirPlugin from "eslint-plugin-rulesdir";
-import { baseCommonRules } from "./BaseRules.js";
+import { baseCommonRules } from "./BaseRules.ts";
 import stylistic from "@stylistic/eslint-plugin";
 
-/**
- * @param {Record<string, any>} overrides
- */
-const createCommonConfig = (overrides) => {
-  Object.keys(overrides).forEach(
-    (it) => {
-      if (!Object.hasOwn(baseCommonRules, it)) {
-        throw new Error(`Cannot override ${it} rule because it doesn't enabled in config`);
-      }
-    },
-  );
+const createCommonConfig = (overrides: Record<string, unknown> = {}) => {
+  Object.keys(overrides).forEach((it) => {
+    if (!Object.hasOwn(baseCommonRules, it)) {
+      throw new Error(`Cannot override ${it} rule because it doesn't enabled in config`);
+    }
+  });
 
   return {
     files: ["**/*.ts"],
@@ -36,6 +31,7 @@ const createCommonConfig = (overrides) => {
       ...overrides,
     },
   };
-}
+};
 
-export { createCommonConfig }
+export { createCommonConfig };
+

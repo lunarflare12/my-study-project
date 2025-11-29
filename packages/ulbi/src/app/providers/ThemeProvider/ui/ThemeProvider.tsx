@@ -1,8 +1,8 @@
 import React, { type FC, useMemo, useState } from "react";
 import {
-    LOCAL_STORAGE_THEME_KEY,
-    Theme,
-    ThemeContext,
+  LOCAL_STORAGE_THEME_KEY,
+  Theme,
+  ThemeContext,
 } from "../lib/ThemeContex";
 
 const getDefaultTheme = (): Theme => {
@@ -16,21 +16,21 @@ const getDefaultTheme = (): Theme => {
 const defaultTheme = getDefaultTheme();
 
 export const ThemeProvider: FC<{ children: React.ReactNode; }> = ({
-    children,
+  children,
 }) => {
-    const [theme, setTheme] = useState<Theme>(defaultTheme);
+  const [theme, setTheme] = useState<Theme>(defaultTheme);
 
-    const defaultProps = useMemo(
-        () => ({
-            theme: theme,
-            setTheme: setTheme,
-        }),
-        [theme]
-    );
+  const defaultProps = useMemo(
+    () => ({
+      theme: theme,
+      setTheme: setTheme,
+    }),
+    [theme]
+  );
 
-    return (
-        <ThemeContext.Provider value={defaultProps}>
-            {children}
-        </ThemeContext.Provider>
-    );
+  return (
+    <ThemeContext.Provider value={defaultProps}>
+      {children}
+    </ThemeContext.Provider>
+  );
 };

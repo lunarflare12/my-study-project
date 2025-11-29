@@ -1,8 +1,9 @@
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import webpack, { type WebpackPluginInstance, ProgressPlugin, CopyPlugin } from "webpack";
+import webpack, { type WebpackPluginInstance, ProgressPlugin } from "webpack";
 import { type IBuildOptions } from "../types/types";
 import path from "path";
+import CopyPlugin from "copy-webpack-plugin";
 
 const build_plugins = ({
   paths,

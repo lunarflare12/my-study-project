@@ -8,14 +8,14 @@ import "./app/styles/index.scss";
 import App from "app/app.tsx";
 
 const root = ReactDOM.createRoot(
-    document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
-    <React.StrictMode>
-        <BrowserRouter>
-            <ThemeProvider>
-                <App />
-            </ThemeProvider>
-        </BrowserRouter>
-    </React.StrictMode>
+  <React.StrictMode>
+    <BrowserRouter>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );

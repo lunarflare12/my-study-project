@@ -1,11 +1,23 @@
-"use strict";
+import type { Rule } from "eslint";
 
-module.exports = {
-  create(context) {
+const rule: Rule.RuleModule = {
+  meta: {
+    type: "problem",
+    docs: {
+      description: "Enforce monorepo import rules",
+    },
+    messages: {
+      selfImport: "Import from package itself by absolute path is not allowed",
+      srcImport: "Import from src of mono packages is not allowed",
+      outsideImport: "Relative import from outside of package is not allowed",
+    },
+    schema: [],
+  },
+  create(context: Rule.RuleContext) {
     const physicalFilename = context.getPhysicalFilename();
 
     // Try different project structures
-    let tail;
+    let tail: string | undefined;
     if (physicalFilename.includes("/typescript/packages/")) {
       [, tail] = physicalFilename.split("/typescript/packages/");
     } else if (physicalFilename.includes("/packages/")) {
@@ -36,39 +48,42 @@ module.exports = {
       packageName = splittedTail[1];
     }
 
-    const nest = tail.match(/\//g).length;
+    const nest = (tail.match(/\//g) || []).length;
 
     return {
-      ImportDeclaration(node) {
+      ImportDeclaration(node: any) {
         const { source: { value } } = node;
+        const valueStr = String(value);
 
-        if (value.startsWith("@devops/")) {
-          const [, sourcePackageName] = value.split("/");
+        if (valueStr.startsWith("@devops/")) {
+          const [, sourcePackageName] = valueStr.split("/");
 
           if (sourcePackageName === packageName) {
             context.report({
               node,
-              message: "Import from package itself by absolute path is not allowed",
+              messageId: "selfImport",
             });
           }
 
-          if (value.includes("/src/") || value.endsWith("/src")) {
+          if (valueStr.includes("/src/") || valueStr.endsWith("/src")) {
             context.report({
               node,
-              message: "Import from src of mono packages is not allowed",
+              messageId: "srcImport",
             });
           }
         }
 
-        const out = value.split("..").length - 1;
+        const out = valueStr.split("..").length - 1;
 
         if (out >= nest) {
           context.report({
             node,
-            message: "Relative import from outside of package is not allowed",
+            messageId: "outsideImport",
           });
         }
       },
     };
   },
 };
+
+module.exports = rule;

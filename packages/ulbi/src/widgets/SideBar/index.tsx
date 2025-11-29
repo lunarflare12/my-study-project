@@ -1,1 +1,1 @@
-export {SideBar} from "widgets/SideBar/ui/SideBar/SideBar.tsx"
+export {SideBar} from "widgets/SideBar/ui/SideBar/SideBar.tsx";

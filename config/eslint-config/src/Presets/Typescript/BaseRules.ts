@@ -99,9 +99,45 @@ const baseTypescriptRules = {
   "@typescript-eslint/unbound-method": ["error", { ignoreStatic: true }],
   "@typescript-eslint/array-type": ["error", { default: "array" }],
 
-  // custom rules from "rulesdir"
-  "rulesdir/type-naming-convention": "error",
-  "rulesdir/interface-naming-convention": "error",
-}
+        // stylistic rules for TypeScript files
+        "@stylistic/indent": ["error", 2, { SwitchCase: 1 }],
+        "@stylistic/quotes": ["error", "double"],
+        "@stylistic/semi": ["error", "always"],
+
+        // custom rules from "rulesdir"
+        "rulesdir/type-naming-convention": "error",
+        "rulesdir/interface-naming-convention": "error",
+
+        // i18next rules
+        "i18next/no-literal-string": [
+          "error",
+          {
+            markupOnly: true,
+            onlyAttribute: false,
+            ignore: [
+              "className",
+              "class",
+              "id",
+              "data-testid",
+              "data-cy",
+              "aria-label",
+              "aria-labelledby",
+              "aria-describedby",
+              "role",
+              "type",
+              "name",
+              "for",
+              "href",
+              "src",
+              "alt",
+              "title",
+              "placeholder",
+              "value",
+            ],
+          },
+        ],
+        "i18next/no-raw-text": "off",
+      } as const;
 
 export { baseTypescriptRules };
+

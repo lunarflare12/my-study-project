@@ -1,18 +1,27 @@
-"use strict";
+import type { Rule } from "eslint";
 
-module.exports = {
+const rule: Rule.RuleModule = {
   meta: {
-    fixable: 'code',
+    type: "layout",
+    docs: {
+      description: "Enforce object properties to be on new lines",
+    },
+    fixable: "code",
+    messages: {
+      bracketNewLine: "Object bracket must be placed on new line",
+      propertyNewLine: "Property must be placed on new line",
+    },
+    schema: [],
   },
-  create(context) {
-    function check(node) {
-      let properties;
+  create(context: Rule.RuleContext) {
+    function check(node: any): void {
+      let properties: any[];
 
       if (node.type === "ObjectExpression" || node.type === "ObjectPattern") {
         properties = node.properties;
       } else {
         // is ImportDeclaration or ExportNamedDeclaration
-        properties = node.specifiers.filter((specifier) => specifier.type === "ImportSpecifier" || specifier.type === "ExportSpecifier");
+        properties = node.specifiers.filter((specifier: any) => specifier.type === "ImportSpecifier" || specifier.type === "ExportSpecifier");
       }
 
       if (!properties.length) {
@@ -33,12 +42,12 @@ module.exports = {
         return;
       }
 
-      properties.forEach((curProp, index) => {
+      properties.forEach((curProp: any, index: number) => {
         if (index === properties.length - 1) {
           if (curProp.loc.end.line === node.loc.end.line) {
             context.report({
-              node,
-              message: "Object bracket must be placed on new line",
+              node: node as any,
+              messageId: "bracketNewLine",
               fix(fixer) {
                 return fixer.insertTextAfter(curProp, "\n");
               }
@@ -49,8 +58,8 @@ module.exports = {
         if (index === 0) {
           if (curProp.loc.start.line === node.loc.start.line) {
             context.report({
-              node: curProp,
-              message: "Property must be placed on new line",
+              node: curProp as any,
+              messageId: "propertyNewLine",
               fix(fixer) {
                 return fixer.insertTextBefore(curProp, "\n");
               }
@@ -64,8 +73,8 @@ module.exports = {
 
         if (curProp.loc.start.line === prevProp.loc.end.line) {
           context.report({
-            node: curProp,
-            message: "Property must be placed on new line",
+            node: curProp as any,
+            messageId: "propertyNewLine",
             fix(fixer) {
               return fixer.insertTextBefore(curProp, "\n");
             }
@@ -80,5 +89,7 @@ module.exports = {
       ImportDeclaration: check,
       ExportNamedDeclaration: check,
     };
-  }
+  },
 };
+
+module.exports = rule;

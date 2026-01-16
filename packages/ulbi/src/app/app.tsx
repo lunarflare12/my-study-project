@@ -1,4 +1,4 @@
-import {classNames} from "shared/lib/classNames/classNames.ts";
+import {classNames} from "shared/lib/classNames/classNames";
 import {useTheme} from "app/providers/ThemeProvider";
 import {AppRouter} from "app/providers/route";
 import "./styles/index.scss";

@@ -1,0 +1,25 @@
+{
+  "extends": "../../config/tslint-config/tsconfig.node.json",
+  "compilerOptions": {
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    "types": ["node", "jest"],
+    "paths": {
+      "@config/eslint-config": ["../../config/eslint-config/src/index.ts"]
+    }
+  },
+  "include": ["src", "eslint.config.mjs"],
+  "exclude": ["node_modules", "dist", "test"]
+}

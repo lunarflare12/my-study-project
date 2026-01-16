@@ -54,13 +54,19 @@ const createEslintConfig = ({
   ignores = [],
   commonOverrides = {},
   typescriptOverrides = {},
+  requireTsExtension = false,
 }: ICreateEslintConfigParams) => {
   if (!pathToTsConfigDir) {
     throw new Error("pathToTsConfigDir not provided");
   }
 
+  const finalCommonOverrides = {
+    ...(requireTsExtension ? { "rulesdir/require-ts-extension-in-import": "error" } : {}),
+    ...commonOverrides,
+  };
+
   return [
-    createCommonConfig(commonOverrides),
+    createCommonConfig(finalCommonOverrides),
     createTypescriptConfig(pathToTsConfigDir, typescriptOverrides),
     ...(ignores.length > 0 ? [{ ignores }] : []),
   ];

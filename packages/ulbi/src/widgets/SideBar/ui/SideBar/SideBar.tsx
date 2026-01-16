@@ -29,4 +29,3 @@ export const SideBar = ({className}: ISidebarProps) => {
     </div>
   );
 };
-

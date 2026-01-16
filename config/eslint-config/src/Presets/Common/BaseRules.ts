@@ -61,6 +61,7 @@ const baseCommonRules = {
   "rulesdir/mono-imports": "error",
   "rulesdir/arguments-align": "error",
   "rulesdir/no-js-extension-in-import": "error",
+  "rulesdir/require-ts-extension-in-import": "off",
 
   "no-prototype-builtins": "off",
   "no-unused-vars": "off",

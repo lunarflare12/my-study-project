@@ -1,6 +1,6 @@
 import cls from "./NavBar.module.scss";
 import {AppLink, AppLinkTheme} from "shared/ui/AppLink/AppLink";
-import { classNames } from "shared/lib/classNames/classNames.ts";
+import { classNames } from "shared/lib/classNames/classNames";
 import { useTranslation } from "react-i18next";
 
 interface INavbarProps {
